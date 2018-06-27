@@ -4,6 +4,7 @@ import networkx as nx
 import numpy as np
 import time 
 import os 
+from multiprocessing import *
 from sqlData import *
 from get_result import *
 pd.options.mode.chained_assignment = None
@@ -57,7 +58,17 @@ if __name__ == '__main__':
 	cnt=0
 	secend_time=time.time()
 	print('start  get route...')
+		'''
+	p=Pool(cpu_count())
 	for msisdn in msisdn_list:
+	    dft=data[data['msisdn']==msisdn]
+	    p.apply_async(getpath,args=(dft,))
+	p.close()
+	p.join()
+	
+	'''
+	for msisdn in msisdn_list:
+
 	    dft=data[data['msisdn']==msisdn]
 	    try:
 	        res=getpath(dft)
